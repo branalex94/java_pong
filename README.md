@@ -14,8 +14,9 @@
 <h3>To come:</h3>
 
 <ol>
-<li>Tracking score</li>
+<li>Tracking score (Done)</li>
 <li>Tracking time</li>
-<li>Restarting game on point/game over</li>
+<li>Restarting game on point(Done)</li>
+<li>Restarting game on game over</li>
 <li>Game over/Victory screen</li>
 </ol>
