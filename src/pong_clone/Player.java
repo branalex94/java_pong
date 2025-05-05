@@ -11,22 +11,23 @@ public class Player {
 	public int playerHeight;
 	public boolean isColliding;
 
+	public boolean isAi;
+
 	public int initialX;
 	public int initialY;
-
-//	public int score = 0;
 
 	public KeyHandler keyHandler;
 
 	public GamePanel gamePanel;
 
-	public Player(GamePanel gamePanel, KeyHandler keyHandler, int playerInitialX, int playerInitialY) {
+	public Player(GamePanel gamePanel, KeyHandler keyHandler, int playerInitialX, int playerInitialY, boolean isAi) {
 		this.gamePanel = gamePanel;
 		this.keyHandler = keyHandler;
 		this.x = playerInitialX;
 		this.y = playerInitialY;
 		this.initialX = playerInitialX;
 		this.initialY = playerInitialY;
+		this.isAi = isAi;
 		playerWidth = 14;
 		playerHeight = 80;
 	}
@@ -43,11 +44,19 @@ public class Player {
 
 	}
 
-	public void update(int paddleSpeed, int screenHeight) {
+	public void goUp() {
+		y -= gamePanel.paddleSpeed;
+	}
+
+	public void goDown() {
+		y += gamePanel.paddleSpeed;
+	}
+
+	public void update(int screenHeight) {
 		if (keyHandler.upPressed == true) {
-			y -= paddleSpeed;
+			goUp();
 		} else if (keyHandler.downPressed == true) {
-			y += paddleSpeed;
+			goDown();
 		}
 
 		if (y <= 0) {
@@ -55,6 +64,18 @@ public class Player {
 		}
 		if (y + playerHeight >= screenHeight) {
 			y = screenHeight - playerHeight;
+		}
+
+		if (isAi) {
+			handleAiActions();
+		}
+	}
+
+	public void handleAiActions() {
+		if (y < gamePanel.ball.ballY) {
+			goDown();
+		} else if (y > gamePanel.ball.ballY) {
+			goUp();
 		}
 	}
 

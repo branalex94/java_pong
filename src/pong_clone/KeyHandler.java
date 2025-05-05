@@ -9,9 +9,12 @@ public class KeyHandler implements KeyListener {
 	private int upKey;
 	private int downKey;
 
-	public KeyHandler(int upKey, int downKey) {
+	private boolean isAi;
+
+	public KeyHandler(int upKey, int downKey, boolean isAi) {
 		this.upKey = upKey;
 		this.downKey = downKey;
+		this.isAi = isAi;
 	}
 
 	@Override
@@ -20,24 +23,30 @@ public class KeyHandler implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		int code = e.getKeyCode();
-		if (code == upKey) {
-			upPressed = true;
-		}
-		if (code == downKey) {
-			downPressed = true;
+
+		if (isAi == false) {
+			int code = e.getKeyCode();
+			if (code == upKey) {
+				upPressed = true;
+			}
+			if (code == downKey) {
+				downPressed = true;
+			}
+
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		int code = e.getKeyCode();
+		if (isAi == false) {
+			int code = e.getKeyCode();
 
-		if (code == upKey) {
-			upPressed = false;
-		}
-		if (code == downKey) {
-			downPressed = false;
+			if (code == upKey) {
+				upPressed = false;
+			}
+			if (code == downKey) {
+				downPressed = false;
+			}
 		}
 	}
 

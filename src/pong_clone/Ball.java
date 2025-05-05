@@ -83,9 +83,9 @@ public class Ball {
 	public void handlePlayerScore() {
 		if (this.freeze == true && gamePanel.scored == true) {
 			if (ballX <= 0) {
-				gamePanel.incrementp1Score();
-			} else if (ballX >= gamePanel.screenWidth) {
 				gamePanel.incrementp2Score();
+			} else if (ballX >= gamePanel.screenWidth) {
+				gamePanel.incrementp1Score();
 			}
 		}
 		gamePanel.scored = false;

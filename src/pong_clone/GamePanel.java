@@ -32,6 +32,8 @@ public class GamePanel extends JPanel implements Runnable {
 	final int player2InitialY = 10;
 
 	public boolean scored = false;
+	
+	public boolean isSecondPlayerAi = true;
 
 	Ball ball = new Ball(this);
 
@@ -45,8 +47,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	UI ui = new UI(this);
 
-	KeyHandler keyHandler2 = new KeyHandler(KeyEvent.VK_I, KeyEvent.VK_K);
-	Player player2 = new Player(this, keyHandler2, player2InitialX, player2InitialY);
+	KeyHandler keyHandler2 = new KeyHandler(KeyEvent.VK_I, KeyEvent.VK_K, isSecondPlayerAi);
+	Player player2 = new Player(this, keyHandler2, player2InitialX, player2InitialY, isSecondPlayerAi);
 
 	int paddleSpeed = 8;
 
@@ -70,8 +72,8 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void setupPlayer() {
-		keyHandler = new KeyHandler(KeyEvent.VK_W, KeyEvent.VK_S);
-		player = new Player(this, keyHandler, playerInitialX, playerInitialX);
+		keyHandler = new KeyHandler(KeyEvent.VK_W, KeyEvent.VK_S, false);
+		player = new Player(this, keyHandler, playerInitialX, playerInitialX, false);
 		this.addKeyListener(keyHandler);
 	}
 
@@ -116,9 +118,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void update() {
 
-		player.update(paddleSpeed, screenHeight);
+		player.update(screenHeight);
 
-		player2.update(paddleSpeed, screenHeight);
+		player2.update(screenHeight);
 
 		ball.checkCollision(player);
 
