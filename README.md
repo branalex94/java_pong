@@ -19,4 +19,5 @@
 <li>Restarting game on point(Done)</li>
 <li>Restarting game on game over</li>
 <li>Game over/Victory screen</li>
+<li>Opponent AI</li>
 </ol>
