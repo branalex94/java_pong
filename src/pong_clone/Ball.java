@@ -8,11 +8,14 @@ public class Ball {
 
 	public boolean isRight, isLeft, isDown, isUp;
 
+	public boolean freeze = false;
+
 	public int ballX = 0;
 	public int ballY = 0;
 
 	int ballHeight = 12;
 	int ballWidth = 12;
+	public int initialBallSpeed = 4;
 	int ballSpeed = 4;
 
 	final int maxBallSpeed = 20;
@@ -22,6 +25,10 @@ public class Ball {
 	public Ball(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;
 		setup();
+	}
+
+	public void resetBallSpeed() {
+		ballSpeed = initialBallSpeed;
 	}
 
 	public void setup() {
@@ -34,18 +41,19 @@ public class Ball {
 	}
 
 	public void update() {
-
-		if (isUp) {
-			ballY = ballY - ballSpeed;
-		}
-		if (isDown) {
-			ballY = ballY + ballSpeed;
-		}
-		if (isLeft) {
-			ballX = ballX - ballSpeed;
-		}
-		if (isRight) {
-			ballX = ballX + ballSpeed;
+		if (freeze == false) {
+			if (isUp) {
+				ballY = ballY - ballSpeed;
+			}
+			if (isDown) {
+				ballY = ballY + ballSpeed;
+			}
+			if (isLeft) {
+				ballX = ballX - ballSpeed;
+			}
+			if (isRight) {
+				ballX = ballX + ballSpeed;
+			}
 		}
 	}
 
@@ -63,12 +71,24 @@ public class Ball {
 				&& (ballY <= player.y + player.playerHeight && ballY >= player.y)) {
 			setCollision();
 		} else if ((ballX + ballWidth >= player.x && ballX + ballWidth < player.x + player.playerWidth)
-				&& (ballY + ballWidth >= player.y && ballY + ballHeight <= player.x + player.playerWidth)) {
+				&& (ballY + ballWidth >= player.y
+						&& ballY + ballWidth + ballHeight <= player.y + player.playerWidth + player.playerHeight)) {
 			setCollision();
 		}
 		if (ballX <= 0 || ballX >= gamePanel.screenWidth) {
-			gamePanel.gameThread = null;
+			setup();
 		}
+	}
+
+	public void handlePlayerScore() {
+		if (this.freeze == true && gamePanel.scored == true) {
+			if (ballX <= 0) {
+				gamePanel.incrementp1Score();
+			} else if (ballX >= gamePanel.screenWidth) {
+				gamePanel.incrementp2Score();
+			}
+		}
+		gamePanel.scored = false;
 	}
 
 	public void setCollision() {

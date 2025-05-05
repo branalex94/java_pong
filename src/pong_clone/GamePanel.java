@@ -31,18 +31,23 @@ public class GamePanel extends JPanel implements Runnable {
 	final int player2InitialX = screenWidth - 40;
 	final int player2InitialY = 10;
 
+	public boolean scored = false;
+
 	Ball ball = new Ball(this);
 
 	int ballDirectionX = ball.ballX - ball.ballSpeed;
 	int ballDirectionY = ball.ballY - ball.ballSpeed;
 
 	Thread gameThread;
-
+	GameStateKeyHandler gameStateControls = new GameStateKeyHandler(this);
 	KeyHandler keyHandler;
 	Player player;
 
+	UI ui = new UI(this);
+
 	KeyHandler keyHandler2 = new KeyHandler(KeyEvent.VK_I, KeyEvent.VK_K);
 	Player player2 = new Player(this, keyHandler2, player2InitialX, player2InitialY);
+
 	int paddleSpeed = 8;
 
 	public GamePanel() {
@@ -51,7 +56,17 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setupPlayer();
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyHandler2);
+		this.addKeyListener(gameStateControls);
 		this.setFocusable(true);
+	}
+
+	public void resumeMatch() {
+		ball.setup();
+		ball.resetBallSpeed();
+		ball.freeze = false;
+		scored = false;
+		player.resetPosition();
+		player2.resetPosition();
 	}
 
 	public void setupPlayer() {
@@ -63,6 +78,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public void start() {
 		gameThread = new Thread(this);
 		gameThread.start();
+	}
+
+	public void incrementp1Score() {
+		ui.p1Score++;
+	}
+
+	public void incrementp2Score() {
+		ui.p2Score++;
 	}
 
 	@Override
@@ -102,6 +125,16 @@ public class GamePanel extends JPanel implements Runnable {
 		ball.checkCollision(player2);
 
 		ball.update();
+
+		checkPlayersScored();
+	}
+
+	public void checkPlayersScored() {
+		if (ball.ballX <= 0 || ball.ballX >= screenWidth) {
+			scored = true;
+			ball.freeze = true;
+			ball.handlePlayerScore();
+		}
 	}
 
 	public void paintComponent(Graphics g) {
@@ -112,6 +145,8 @@ public class GamePanel extends JPanel implements Runnable {
 		player.paintPlayerPaddle(g2d);
 		player2.paintPlayerPaddle(g2d);
 		ball.paintBall(g2d);
+
+		ui.paintUI(g2d);
 
 		g2d.dispose();
 	}

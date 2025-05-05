@@ -11,6 +11,11 @@ public class Player {
 	public int playerHeight;
 	public boolean isColliding;
 
+	public int initialX;
+	public int initialY;
+
+//	public int score = 0;
+
 	public KeyHandler keyHandler;
 
 	public GamePanel gamePanel;
@@ -20,8 +25,15 @@ public class Player {
 		this.keyHandler = keyHandler;
 		this.x = playerInitialX;
 		this.y = playerInitialY;
+		this.initialX = playerInitialX;
+		this.initialY = playerInitialY;
 		playerWidth = 14;
 		playerHeight = 80;
+	}
+
+	public void resetPosition() {
+		x = initialX;
+		y = initialY;
 	}
 
 	public void paintPlayerPaddle(Graphics2D g2d) {
