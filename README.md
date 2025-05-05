@@ -1,4 +1,4 @@
-<h1 style="margin-left: 0 auto;">Pong Clone</h1>
+<h1>Pong Clone</h1>
 
 <h2>A practice project cloning the classing pong from atari machines</h2>
 
